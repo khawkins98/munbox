@@ -393,7 +393,8 @@ found:;
     state->format_state.classic.folder_depth = 0;
 
     layer->internal_state = state;
-    layer->read = NULL;
+    // Callers may probe with read() before a successful open(); it then reports an error
+    layer->read = sit_layer_read;
     layer->close = sit_layer_close;
     layer->open = sit_layer_open;
     return layer;
@@ -465,7 +466,8 @@ found:;
     state->is_sit5 = true;
 
     layer->internal_state = state;
-    layer->read = NULL;
+    // Callers may probe with read() before a successful open(); it then reports an error
+    layer->read = sit_layer_read;
     layer->close = sit_layer_close;
     layer->open = sit5_layer_open;
     return layer;

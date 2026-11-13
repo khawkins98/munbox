@@ -1161,7 +1161,8 @@ munbox_layer_t *munbox_new_cpt_layer(munbox_layer_t *input) {
 
     // Initialize layer vtable
     layer->internal_state = st;
-    layer->read = NULL; // will be set on first open()
+    // Callers may probe with read() before a successful open(); it then reports an error
+    layer->read = cpt_layer_read;
     layer->close = cpt_layer_close;
     layer->open = cpt_layer_open;
     // no extract; use open/read
